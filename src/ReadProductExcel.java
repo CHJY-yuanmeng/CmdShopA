@@ -3,45 +3,46 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pojo.Product;
+import pojo.User;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 
-public class ReadExcel {
+public class ReadProductExcel {
     /*
     readExcel是什么方法？成员方法
      */
-    public User[] readExcel(File file) {
-        User users[] = null;
+    public Product[] readExcel(InputStream in) {
+        Product products[] = null;
         try {
-            XSSFWorkbook xw = new XSSFWorkbook(new FileInputStream(file));
+            XSSFWorkbook xw = new XSSFWorkbook(in);
             XSSFSheet xs = xw.getSheetAt(0);
-            users = new User[xs.getLastRowNum()];
+            products = new Product[xs.getLastRowNum()];
             for (int j = 1; j <= xs.getLastRowNum(); j++) {
                 XSSFRow row = xs.getRow(j);
-                User user = new User();
+                Product product = new Product();
                 for (int k = 0; k <= row.getLastCellNum(); k++) {
                     XSSFCell cell = row.getCell(k);
                     if (cell == null)
                         continue;
                     if (k == 0) {
-                        user.setId(this.getValue(cell));
+                        product.setProductId(this.getValue(cell));
                     } else if (k == 1) {
-                        user.setUserPw(this.getValue(cell));
+                        product.setProductName(this.getValue(cell));
                     } else if (k == 2) {
-                        user.setUserNmae(this.getValue(cell));
+                        product.setProductPrice(Float.valueOf(this.getValue(cell)));
                     } else if (k == 3) {
-                        user.setUserAddress(this.getValue(cell));
+                        product.setProductDsec(this.getValue(cell));
                     }
-                    users[j - 1] = user;
+                    products[j - 1] = product;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return users;
+        return products;
     }
 
     private String getValue(XSSFCell cell) {
