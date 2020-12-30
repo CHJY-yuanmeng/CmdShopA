@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="CmdShopA" level="project" />
+    <orderEntry type="library" name="xmlbeans-3.1.0" level="project" />
   </component>
 </module>
